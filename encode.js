@@ -28,6 +28,7 @@ const encodeVideo = (video, data) => new Promise((resolve, reject) => {
   const outfile = `${video}_psvr.mp4`
   const f = ffmpeg(video)
   f.on('start', () => console.log('Encoding video...'))
+  f.on('progress', prog => console.log(`Progress: ${prog.percent}%`))
   f.on('error', (err, stdout, stderr) => console.log(err, stdout, stderr))
   f.on('end', () => resolve(outfile))
   f.output(outfile).preset(psvrProfile)
