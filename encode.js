@@ -19,6 +19,7 @@ const psvrProfile = (ffmpegCmd) => {
       '-bf', '0',
       '-slices', '24',
       '-refs', '1',
+      '-threads', '0',
       '-x264opts', 'no-cabac:aq-mode=3:slices=24:direct=auto:me=esa:subme=8:trellis=1',
       '-flags', '+global_header'
     ])
