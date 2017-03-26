@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/littlstar/ls-psvr-encoder#readme",
   "dependencies": {
-    "fluent-ffmpeg": "^2.1.0"
+    "fluent-ffmpeg": "^2.1.0",
+    "terminal-kit": "^1.0.3",
+    "which": "^1.2.14",
+    "yargs": "^7.0.2"
   }
 }
