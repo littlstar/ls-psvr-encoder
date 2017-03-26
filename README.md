@@ -6,7 +6,7 @@ A simple command line tool to encode your 180 and 360 videos for sideloading wit
 
 ls-psvr-encoder has been tested on several flavors of Linux (Ubuntu, Debian, Arch, CentOS) and the latest macOS. Windows is not yet supported.
 
-This is a Node CLI application, so Node.JS is required.
+This is a Node CLI application, so Node.JS and npm are both required.
 
 Also the following binary applications are required:
 
@@ -21,6 +21,8 @@ See https://www.ffmpeg.org and https://gpac.wp.imt.fr for information about the 
 Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should work fine with this tool. If your source video is footage taken straight from the RAW output of a high-end camera, or if your source video is packaged in one of the more esoteric containers that are out there, you may need to convert or re-mux as necessary so that the file can be read via FFmpeg.
 
 ## Usage
+
+To get started, simply clone the repository, then `cd` into it and run `npm i` to install all necessary Node.js modules. Once `npm` is complete, you should be ready to encode.
 
 Basic functionality is achieved by running `node index.js -i /path/to/video.mp4`. This will assume default values regarding the input video (monoscopic, 360) and will output to the same directory that holds the input file (in this case, `/path/to`). The output file will be renamed to match the PSVR app's requirements, i.e. `/path/to/video_psvr.mp4`.
 
