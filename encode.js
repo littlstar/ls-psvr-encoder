@@ -22,7 +22,7 @@ const psvrProfile = (ffmpegCmd) => {
       '-slices', '24',
       '-refs', '1',
       '-threads', '0',
-      '-x264opts', 'no-cabac:aq-mode=2:slices=24:direct=spatial:me=esa:subme=8:trellis=1',
+      '-x264opts', 'no-cabac:aq-mode=1:slices=24:direct=spatial:me=esa:subme=8:trellis=1',
       '-flags', '+global_header'
     ])
 }
