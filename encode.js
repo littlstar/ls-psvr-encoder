@@ -3,6 +3,8 @@
 const ffmpeg = require('fluent-ffmpeg')
 const spawn = require('child_process').spawn
 
+ffmpeg.setFfmpegPath('/usr/bin/ffmpeg')
+
 const psvrProfile = (ffmpegCmd) => {
   ffmpegCmd
     .format('mp4')
@@ -20,19 +22,18 @@ const psvrProfile = (ffmpegCmd) => {
       '-slices', '24',
       '-refs', '1',
       '-threads', '0',
-      '-x264opts', 'no-cabac:aq-mode=3:slices=24:direct=auto:me=esa:subme=8:trellis=1',
+      '-x264opts', 'no-cabac:aq-mode=2:slices=24:direct=spatial:me=esa:subme=8:trellis=1',
       '-flags', '+global_header'
     ])
 }
 
-const encodeVideo = (video, data) => new Promise((resolve, reject) => {
-  const outfile = `${video}_psvr.mp4`
+const encodeVideo = (video, data, outPath) => new Promise((resolve, reject) => {
   const f = ffmpeg(video)
   f.on('start', () => console.log('Encoding video...'))
   f.on('progress', prog => console.log(`Progress: ${prog.percent.toFixed(2)}%`))
   f.on('error', (err, stdout, stderr) => console.log(err, stdout, stderr))
   f.on('end', () => resolve(outfile))
-  f.output(outfile).preset(psvrProfile)
+  f.output(outPath).preset(psvrProfile)
   if (data.width > 2560) {
     f.size('2560x?')
   } else if (data.width < 2560) {
@@ -48,8 +49,8 @@ const interleave = encode => new Promise((resolve, reject) => {
   command.on('close', () => resolve(encode))
 })
 
-const main = (video, data) => new Promise((resolve, reject) => {
-  encodeVideo(video, data).then((encoded) => {
+const main = (video, data, outPath) => new Promise((resolve, reject) => {
+  encodeVideo(video, data, outPath).then((encoded) => {
     return interleave(encoded)
   }).then((interleaved) => {
     resolve(interleaved)
