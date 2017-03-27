@@ -1,6 +1,8 @@
 'use strict'
 
 const ffmpeg = require('fluent-ffmpeg')
+const path = require('path')
+const ProgressBar = require('ascii-progress')
 const spawn = require('child_process').spawn
 
 ffmpeg.setFfmpegPath('/usr/bin/ffmpeg')
@@ -22,17 +24,24 @@ const psvrProfile = (ffmpegCmd) => {
       '-slices', '24',
       '-refs', '1',
       '-threads', '0',
-      '-x264opts', 'no-cabac:aq-mode=1:slices=24:direct=spatial:me=esa:subme=8:trellis=1',
+      '-x264opts', 'no-cabac:aq-mode=1:aq-strength=0.7:slices=24:direct=spatial:me=tesa:subme=8:trellis=1',
       '-flags', '+global_header'
     ])
 }
 
 const encodeVideo = (video, data, outPath) => new Promise((resolve, reject) => {
+  const bar = new ProgressBar({
+    schema: ` Encoding ${path.basename(video)} @ :fps fps [:bar] :percent  ETA :etas`,
+    width : 80,
+    total : 100
+  })
   const f = ffmpeg(video)
   f.on('start', () => console.log('Encoding video...'))
-  f.on('progress', prog => console.log(`Progress: ${prog.percent.toFixed(2)}%`))
+  f.on('progress', prog => bar.update((prog.percent / 100), { fps: prog.currentFps }))
   f.on('error', (err, stdout, stderr) => console.log(err, stdout, stderr))
-  f.on('end', () => resolve(outfile))
+  f.on('end', () => {
+    resolve(outfile)
+  })
   f.output(outPath).preset(psvrProfile)
   if (data.width > 2560) {
     f.size('2560x?')
