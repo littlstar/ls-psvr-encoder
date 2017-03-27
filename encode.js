@@ -4,6 +4,7 @@ const ffmpeg = require('fluent-ffmpeg')
 const path = require('path')
 const ProgressBar = require('ascii-progress')
 const spawn = require('child_process').spawn
+const term = require('terminal-kit').terminal
 
 const psvrProfile = (ffmpegCmd) => {
   ffmpegCmd
@@ -34,10 +35,10 @@ const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) =
   f.inputOptions(['-ss', `${seek}`])
   f.outputOptions(['-vframes', '1', '-q:v', '2'])
   f.output(screenOutput)
-  f.on('start', () => console.log('Grabbing screenshot...'))
+  f.on('start', () => term.bold('Grabbing screenshot...'))
   f.on('error', (err, stdout, stderr) => console.log(err, stdout, stderr))
   f.on('end', () => {
-    console.log(`Screenshot saved to ${screenOutput}`)
+    term.bold(`Screenshot saved to ${screenOutput}`)
     resolve(screenOutput)
   })
   f.run()
@@ -50,9 +51,13 @@ const encodeVideo = (video, data, outPath, codecs) => new Promise((resolve, reje
     total : 100
   })
   const f = ffmpeg(video)
-  f.on('start', () => console.log('Encoding video...'))
+  f.on('start', () => term.bold('Encoding video...'))
   f.on('progress', prog => bar.update((prog.percent / 100), { fps: prog.currentFps }))
-  f.on('error', (err, stdout, stderr) => console.log(err, stdout, stderr))
+  f.on('error', (err) => {
+    term.red(err)
+    term.bold.red('\nHint: did you remember to install FFmpeg with x264 support?\n')
+    process.exit(1)
+  })
   f.on('end', () => {
     resolve(outPath)
   })
@@ -68,11 +73,14 @@ const encodeVideo = (video, data, outPath, codecs) => new Promise((resolve, reje
 
 const interleave = outputs => new Promise((resolve, reject) => {
   const command = spawn('MP4Box', ['-isma', '-inter', '1000', outputs[0]])
-  command.stderr.on('data', (data) => console.log(`${data}`))
-  command.on('error', err => reject(err.stack || err))
+  //command.stderr.on('data', (data) => console.log(`${data}`))
+  command.on('error', (err) => {
+    term.bold.red('\nSomething went wrong!\nHint: did you remember to install MP4Box?\n')
+    reject(err.stack || err)
+  })
   command.on('close', () => {
     const attachPoster = spawn('MP4Box', ['-itags', `cover=${outputs[1]}`, outputs[0]])
-    attachPoster.stderr.on('data', errData => console.log(`${errData}`))
+    //attachPoster.stderr.on('data', errData => console.log(`${errData}`))
     attachPoster.on('error', err2 => reject(err2.stack || err2))
     attachPoster.on('close', () => {
       resolve(outputs[0])
