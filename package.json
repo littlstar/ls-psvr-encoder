@@ -1,7 +1,7 @@
 {
   "name": "ls-psvr-encoder",
   "version": "1.0.0",
-  "description": "",
+  "description": "Encode 180 and 360 degree videos for sideloading into the Littlstar VR Cinema PSVR app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/littlstar/ls-psvr-encoder.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Andrew A. Grathwohl <andrew@littlstar.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/littlstar/ls-psvr-encoder/issues"
   },
