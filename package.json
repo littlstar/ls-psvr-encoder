@@ -1,8 +1,9 @@
 {
   "name": "ls-psvr-encoder",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Encode 180 and 360 degree videos for sideloading into the Littlstar VR Cinema PSVR app",
   "main": "index.js",
+  "bin" : { "lspe" : "./index.js" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
