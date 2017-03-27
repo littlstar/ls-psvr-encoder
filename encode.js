@@ -12,7 +12,6 @@ const psvrProfile = (ffmpegCmd) => {
     .format('mp4')
     .videoCodec('libx264')
     .videoBitrate('20000')
-    .audioCodec('libfdk_aac')
     .audioFrequency(48000)
     .audioChannels(2)
     .audioBitrate('192k')
@@ -46,7 +45,7 @@ const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) =
   f.run()
 })
 
-const encodeVideo = (video, data, outPath) => new Promise((resolve, reject) => {
+const encodeVideo = (video, data, outPath, codecs) => new Promise((resolve, reject) => {
   const bar = new ProgressBar({
     schema: ` Encoding ${path.basename(video)} @ :fps fps [:bar] :percent `,
     width : 80,
@@ -59,6 +58,7 @@ const encodeVideo = (video, data, outPath) => new Promise((resolve, reject) => {
   f.on('end', () => {
     resolve(outPath)
   })
+  f.audioCodec(codecs.audio)
   f.output(outPath).preset(psvrProfile)
   if (data.width > 2560) {
     f.size('2560x?')
@@ -82,11 +82,29 @@ const interleave = outputs => new Promise((resolve, reject) => {
   })
 })
 
+const getCodecSupport = () => new Promise((resolve, reject) => {
+  try {
+    const useCodecs = { video: 'libx264' }
+    ffmpeg.getAvailableCodecs((err, codecs) => {
+      if (codecs['libfdk_aac']) {
+        if (codecs['libfdk_aac'].canEncode === true) {
+          useCodecs.audio = 'libfdk_aac'
+        } else {
+          useCodecs.audio = 'aac'
+        }
+      }
+      resolve(useCodecs)
+    })
+  } catch (err) { reject(err.stack || err) }
+})
+
 const main = (video, data, outPath) => new Promise((resolve, reject) => {
-  Promise.all([
-    encodeVideo(video, data, outPath),
-    grabScreenshot(video, data, outPath)
-  ]).then((outputs) => {
+  getCodecSupport().then(codecs => {
+    return Promise.all([
+      encodeVideo(video, data, outPath, codecs),
+      grabScreenshot(video, data, outPath)
+    ])
+  }).then((outputs) => {
     return interleave(outputs)
   }).then((interleaved) => {
     resolve(interleaved)
