@@ -9,12 +9,10 @@ const checkWhich = application => new Promise((resolve, reject) => {
   })
 })
 
-const checkForDeps = () => new Promise((resolve, reject) => {
-  Promise.all([
+const deps = () => Promise.all([
     checkWhich('ffmpeg'),
     checkWhich('ffprobe'),
     checkWhich('MP4Box')
-  ]).then(results => resolve(results)).catch(err => reject(err.stack || err))
-})
+])
 
-module.exports = checkForDeps
+module.exports = { deps }

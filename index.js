@@ -1,7 +1,7 @@
 'use strict'
 
 const analyze = require('./analyze')
-const checkDeps = require('./checks')
+const checks = require('./checks')
 const encode = require('./encode')
 const header = require('./assets/ls')
 const path = require('path')
@@ -41,7 +41,7 @@ const argv = require('yargs')
 
 term.bold.red(header)
 
-checkDeps().then(appBinaries => {
+checks.deps().then(appBinaries => {
   term.bold(`Found all necessary dependencies.\n`)
 })
 
