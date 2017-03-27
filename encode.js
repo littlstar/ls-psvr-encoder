@@ -5,13 +5,11 @@ const path = require('path')
 const ProgressBar = require('ascii-progress')
 const spawn = require('child_process').spawn
 
-ffmpeg.setFfmpegPath('/usr/bin/ffmpeg')
-
 const psvrProfile = (ffmpegCmd) => {
   ffmpegCmd
     .format('mp4')
     .videoCodec('libx264')
-    .videoBitrate('20000')
+    .videoBitrate('15000')
     .audioFrequency(48000)
     .audioChannels(2)
     .audioBitrate('192k')
@@ -89,11 +87,15 @@ const getCodecSupport = () => new Promise((resolve, reject) => {
       if (codecs['libfdk_aac']) {
         if (codecs['libfdk_aac'].canEncode === true) {
           useCodecs.audio = 'libfdk_aac'
+          resolve(useCodecs)
         } else {
           useCodecs.audio = 'aac'
+          resolve(useCodecs)
         }
+      } else {
+        useCodecs.audio = 'aac'
+        resolve(useCodecs)
       }
-      resolve(useCodecs)
     })
   } catch (err) { reject(err.stack || err) }
 })
