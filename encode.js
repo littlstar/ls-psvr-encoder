@@ -29,9 +29,26 @@ const psvrProfile = (ffmpegCmd) => {
     ])
 }
 
+const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) => {
+  // ffmpeg -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
+  const seek = parseInt((data.duration / 3).toFixed(0), 10) || 15
+  const screenOutput = `${outPath}_screenshot.jpg`
+  const f = ffmpeg(video)
+  f.inputOptions(['-ss', `${seek}`])
+  f.outputOptions(['-vframes', '1', '-q:v', '2'])
+  f.output(screenOutput)
+  f.on('start', () => console.log('Grabbing screenshot...'))
+  f.on('error', (err, stdout, stderr) => console.log(err, stdout, stderr))
+  f.on('end', () => {
+    console.log(`Screenshot saved to ${screenOutput}`)
+    resolve(screenOutput)
+  })
+  f.run()
+})
+
 const encodeVideo = (video, data, outPath) => new Promise((resolve, reject) => {
   const bar = new ProgressBar({
-    schema: ` Encoding ${path.basename(video)} @ :fps fps [:bar] :percent  ETA :etas`,
+    schema: ` Encoding ${path.basename(video)} @ :fps fps [:bar] :percent `,
     width : 80,
     total : 100
   })
@@ -40,7 +57,7 @@ const encodeVideo = (video, data, outPath) => new Promise((resolve, reject) => {
   f.on('progress', prog => bar.update((prog.percent / 100), { fps: prog.currentFps }))
   f.on('error', (err, stdout, stderr) => console.log(err, stdout, stderr))
   f.on('end', () => {
-    resolve(outfile)
+    resolve(outPath)
   })
   f.output(outPath).preset(psvrProfile)
   if (data.width > 2560) {
@@ -51,16 +68,26 @@ const encodeVideo = (video, data, outPath) => new Promise((resolve, reject) => {
   f.run()
 })
 
-const interleave = encode => new Promise((resolve, reject) => {
-  const command = spawn('MP4Box', ['-isma', '-inter', '1000', encode])
+const interleave = outputs => new Promise((resolve, reject) => {
+  const command = spawn('MP4Box', ['-isma', '-inter', '1000', outputs[0]])
   command.stderr.on('data', (data) => console.log(`${data}`))
   command.on('error', err => reject(err.stack || err))
-  command.on('close', () => resolve(encode))
+  command.on('close', () => {
+    const attachPoster = spawn('MP4Box', ['-itags', `cover=${outputs[1]}`, outputs[0]])
+    attachPoster.stderr.on('data', errData => console.log(`${errData}`))
+    attachPoster.on('error', err2 => reject(err2.stack || err2))
+    attachPoster.on('close', () => {
+      resolve(outputs[0])
+    })
+  })
 })
 
 const main = (video, data, outPath) => new Promise((resolve, reject) => {
-  encodeVideo(video, data, outPath).then((encoded) => {
-    return interleave(encoded)
+  Promise.all([
+    encodeVideo(video, data, outPath),
+    grabScreenshot(video, data, outPath)
+  ]).then((outputs) => {
+    return interleave(outputs)
   }).then((interleaved) => {
     resolve(interleaved)
   }).catch(err => reject(err.stack || err))
