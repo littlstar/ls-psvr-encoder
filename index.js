@@ -8,9 +8,6 @@ const path = require('path')
 const term = require('terminal-kit').terminal
 const argv = require('yargs')
     .usage('Usage: $0 -i /path/to/video.mp4 [options]')
-    .example('node $0 -i myvideo.mp4', 'encode myvideo.mp4 with default options (360 degrees, monoscopic, outputs to same dir as input)')
-    .example('node $0 -i myvideo.mp4 -d 180 -t ou', 'encode 180 degree over-under stereoscopic video')
-    .example('node $0 -i myvideo.mp4 -d 360 -t sbs -o /work/encodes', 'encode 360 degree side-by-side stereoscopic video, output to /work/encodes directory')
     .alias('i', 'input')
     .nargs('i', 1)
     .describe('i', 'Input video path')
@@ -34,6 +31,12 @@ const argv = require('yargs')
    */
     .help('h')
     .alias('h', 'help')
+    .example('node $0 -i myvideo.mp4',
+             'encode myvideo.mp4 with default options (360 degrees, monoscopic, outputs to same dir as input)')
+    .example('node $0 -i myvideo.mp4 -d 180 -t ou',
+             'encode 180 degree over-under stereoscopic video')
+    .example('node $0 -i myvideo.mp4 -d 360 -t sbs -o /work/encodes',
+             'encode 360 degree side-by-side stereoscopic video, output to /work/encodes directory')
     .epilog('Email media@littlstar.com for assistance/accolades.\n\nCopyright 2017 Little Star Media, Inc.')
     .demandOption(['i'])
     .showHelpOnFail(false, 'Specify --help for options')
