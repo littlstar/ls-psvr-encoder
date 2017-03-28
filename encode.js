@@ -51,7 +51,7 @@ const encodeVideo = (video, data, outPath, codecs) => new Promise((resolve, reje
     total : 100
   })
   const f = ffmpeg(video)
-  f.on('start', () => term.bold('Encoding video...'))
+  f.on('start', () => term.bold('Encoding video...\n'))
   f.on('progress', prog => bar.update((prog.percent / 100), { fps: prog.currentFps }))
   f.on('error', (err) => {
     term.red(err)
@@ -73,14 +73,14 @@ const encodeVideo = (video, data, outPath, codecs) => new Promise((resolve, reje
 
 const interleave = outputs => new Promise((resolve, reject) => {
   const command = spawn('MP4Box', ['-isma', '-inter', '1000', outputs[0]])
-  //command.stderr.on('data', (data) => console.log(`${data}`))
+  command.stderr.on('data', (data) => console.log(`${data}`))
   command.on('error', (err) => {
     term.bold.red('\nSomething went wrong!\nHint: did you remember to install MP4Box?\n')
     reject(err.stack || err)
   })
   command.on('close', () => {
     const attachPoster = spawn('MP4Box', ['-itags', `cover=${outputs[1]}`, outputs[0]])
-    //attachPoster.stderr.on('data', errData => console.log(`${errData}`))
+    attachPoster.stderr.on('data', errData => console.log(`${errData}`))
     attachPoster.on('error', err2 => reject(err2.stack || err2))
     attachPoster.on('close', () => {
       resolve(outputs[0])
