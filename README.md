@@ -24,37 +24,8 @@ Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should 
 
 ## Usage
 
-To get started, simply clone the repository, then `cd` into it and run `npm i` to install all necessary Node.js modules. Once `npm` is complete, you should be ready to encode.
+To get started, elicit the following command (may require sudo): `npm install littlstar/ls-psvr-encoder -g`
 
-Basic functionality is achieved by running `node index.js -i /path/to/video.mp4`. This will assume default values regarding the input video (monoscopic, 360) and will output to the same directory that holds the input file (in this case, `/path/to`). The output file will be renamed to match the PSVR app's requirements, i.e. `/path/to/video_psvr.mp4`.
+Basic functionality is achieved by running `lspe -i /path/to/video.mp4`. This will assume default values regarding the input video (monoscopic, 360) and will output to the same directory that holds the input file (in this case, `/path/to`). The output file will be renamed to match the PSVR app's requirements, i.e. `/path/to/video_psvr.mp4`.
 
-To get more granular options, run `node index.js -h` for a more detailed help output:
-
-```
-$ node index.js -h
-
-Usage: index.js -i /path/to/video.mp4 [options]
-
-Options:
-  -i, --input            Input video path                             [required]
-  -d, --degrees          Specify video degrees
-                                   [required] [choices: 180, 360] [default: 360]
-  -t, --type             Input video type
-                     [required] [choices: "sbs", "ou", "mono"] [default: "mono"]
-  -o, --outputDirectory  Output directory (default: same as input path)
-  -h, --help             Show help                                     [boolean]
-
-Examples:
-  node index.js -i myvideo.mp4              encode myvideo.mp4 with default
-                                            options (360 degrees, monoscopic,
-                                            outputs to same dir as input)
-  node index.js -i myvideo.mp4 -d 180 -t    encode 180 degree over-under
-  ou                                        stereoscopic video
-  node index.js -i myvideo.mp4 -d 360 -t    encode 360 degree side-by-side
-  sbs -o /work/encodes                      stereoscopic video, output to
-                                            /work/encodes directory
-
-Email media@littlstar.com for assistance/accolades.
-
-Copyright 2017 Little Star Media, Inc.
-```
+To get more granular options, run `lspe -h` for a more detailed help output.
