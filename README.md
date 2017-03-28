@@ -16,7 +16,7 @@ Also the following binary applications are required:
 
 **macOS users can use the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)**
 
-See https://www.ffmpeg.org and https://gpac.wp.imt.fr for information about the dependencies.
+See the [FFmpeg](https://ffmpeg.org) and [GPAC](https://gpac.io) project pages for more information about these dependencies.
 
 ## Video Compatibility
 
