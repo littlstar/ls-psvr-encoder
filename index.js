@@ -57,7 +57,7 @@ term.underline.red(`Outputting PSVR sideload video to ${outputFilePath}\n`)
 analyze(videoFile).then((videoData) => {
   return encode(videoFile, videoData, outputFilePath)
 }).then((encodedVideoFile) => {
-  console.log(`Encoding complete. Output path: ${encodedVideoFile}`)
+  term.bold(`Encoding complete. Output path: ${encodedVideoFile}`)
 }).catch(err => console.error(err))
 
 // Process handling
