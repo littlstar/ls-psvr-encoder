@@ -14,11 +14,17 @@ Also the following binary applications are required:
 * FFprobe
 * MP4Box
 
-**macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide.
-
-If you do not wish to use homebrew, you may install the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)**
-
 See the [FFmpeg](https://ffmpeg.org) and [GPAC](https://gpac.io) project pages for more information about these dependencies.
+
+#### macOS
+
+macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide to get everything installed and running quickly.
+
+*If you do not wish to use homebrew, you may install the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)*
+
+#### Linux
+
+Use your distribution's package manager to install `MP4Box`, `libx264`, and `ffmpeg`.
 
 ## Video Compatibility
 
@@ -26,7 +32,9 @@ Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should 
 
 ## Usage
 
-To get started, elicit the following command: `npm install littlstar/ls-psvr-encoder -g`. This will place the application into your `PATH`, and can be executed by eliciting the command `lspe`.
+**macOS users may use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide.**
+
+Getting started is easy for Linux users, too. To get started, elicit the following command: `npm install littlstar/ls-psvr-encoder -g`. This will place the application into your `PATH`, and can be executed by eliciting the command `lspe`.
 
 Basic functionality is achieved by running `lspe -i /path/to/video.mp4`. This will assume default values regarding the input video (monoscopic, 360) and will output to the same directory that holds the input file (in this case, `/path/to`). The output file will be renamed to match the PSVR app's requirements, i.e. `/path/to/video_psvr.mp4`.
 
