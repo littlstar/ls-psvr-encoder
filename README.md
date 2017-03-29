@@ -4,17 +4,19 @@ A simple command line tool to encode your 180 and 360 videos for sideloading wit
 
 ## Dependencies
 
-ls-psvr-encoder has been tested on several flavors of Linux (Ubuntu, Debian, Arch, CentOS) and the latest macOS. Windows is not yet supported.
+ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS). Windows is not supported yet, but we are working on it!
 
 This is a Node CLI application, so Node.JS and npm are both required.
 
 Also the following binary applications are required:
 
-* FFmpeg compiled with `libx264` and `libfdk_aac` support
+* FFmpeg compiled with `libx264` and `libfdk_aac` libraries
 * FFprobe
 * MP4Box
 
-**macOS users can use the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)**
+**macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide.
+
+If you do not wish to use homebrew, you may install the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)**
 
 See the [FFmpeg](https://ffmpeg.org) and [GPAC](https://gpac.io) project pages for more information about these dependencies.
 
