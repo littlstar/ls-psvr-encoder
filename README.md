@@ -24,7 +24,7 @@ Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should 
 
 ## Usage
 
-To get started, elicit the following command (may require sudo): `npm install littlstar/ls-psvr-encoder -g`
+To get started, elicit the following command: `npm install littlstar/ls-psvr-encoder -g`. This will place the application into your `PATH`, and can be executed by eliciting the command `lspe`.
 
 Basic functionality is achieved by running `lspe -i /path/to/video.mp4`. This will assume default values regarding the input video (monoscopic, 360) and will output to the same directory that holds the input file (in this case, `/path/to`). The output file will be renamed to match the PSVR app's requirements, i.e. `/path/to/video_psvr.mp4`.
 
