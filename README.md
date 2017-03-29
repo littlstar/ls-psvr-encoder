@@ -30,6 +30,8 @@ Use your distribution's package manager to install `MP4Box`, `libx264`, and `ffm
 
 Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should work fine with this tool. If your source video is footage taken straight from the RAW output of a high-end camera, or if your source video is packaged in one of the more esoteric containers that are out there, you may need to convert or re-mux as necessary so that the file can be read via FFmpeg.
 
+**At this time, only stereo audio is supported on the VR Cinema PSVR app. If your source video contains only a multichannel audio track, it will be downmixed to stereo for compatibility.**
+
 ## Usage
 
 **macOS users may use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide.**
