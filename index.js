@@ -23,13 +23,6 @@ const argv = require('yargs')
     .alias('o', 'outputDirectory')
     .nargs('o', 1)
     .describe('o', 'Output directory (default: same as input path)')
-    /*
-    .alias('q', 'quality')
-    .nargs('q', 1)
-    .describe('q', 'Video output quality')
-    .choices('q', [1, 2, 3])
-    .default('q', 3)
-   */
     .help('h')
     .alias('h', 'help')
     .example('node $0 -i myvideo.mp4',
@@ -49,6 +42,9 @@ checks.deps().then(appBinaries => {
   term.bold(`Found all necessary dependencies.\n`)
 })
 
+
+/* Construct the output file name based upon CLI args */
+
 const videoFile = path.resolve(argv.input)
 const videoBase = path.basename(videoFile).split('.')[0]
 const videoDir = path.dirname(videoFile)
@@ -58,13 +54,19 @@ if (argv.type) outputFilePath = `${outputFilePath}_${argv.type}`
 outputFilePath = `${outputFilePath}.mp4`
 term.underline.red(`Outputting PSVR sideload video to ${outputFilePath}\n`)
 
+
+/* Analyze the video file to determine exact encoding targets
+ * Then perform the transcode and output an interleaved MP4 */
+
 analyze(videoFile).then((videoData) => {
   return encode(videoFile, videoData, outputFilePath)
 }).then((encodedVideoFile) => {
   term.bold(`Encoding complete. Output path: ${encodedVideoFile}`)
 }).catch(err => console.error(err))
 
-// Process handling
+
+/* Handle uncaught errors */
+
 const unhandledRejections = new Map()
 process.on('unhandledRejection', (reason, p) => {
   unhandledRejections.set(p, reason)
@@ -74,5 +76,5 @@ process.on('uncaughtException', (err) => {
   term.red(err)
 })
 process.on('exit', (code) => {
-  term.green(`About to exit with code: ${code}`)
+  term.red(`About to exit with code: ${code}`)
 })
