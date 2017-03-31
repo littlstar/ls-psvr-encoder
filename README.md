@@ -41,3 +41,7 @@ Getting started is easy for Linux users, too. To get started, elicit the followi
 Basic functionality is achieved by running `lspe -i /path/to/video.mp4`. This will assume default values regarding the input video (monoscopic, 360) and will output to the same directory that holds the input file (in this case, `/path/to`). The output file will be renamed to match the PSVR app's requirements, i.e. `/path/to/video_psvr.mp4`.
 
 To get more granular options, run `lspe -h` for a more detailed help output.
+
+## Notes
+
+The output video file may big larger than the input. This is because the Playstation 4's hardware and decoding capabilities are not up to today's standards, and smaller file sizes place too much strain on the system. Making the files bigger allows the PS4 to work less as hard to play the content, leading to fewer buffering events that lead to a poor experience.
