@@ -3,7 +3,9 @@
   "version": "0.2.0",
   "description": "Encode 180 and 360 degree videos for sideloading into the Littlstar VR Cinema PSVR app",
   "main": "index.js",
-  "bin" : { "lspe" : "./index.js" },
+  "bin": {
+    "lspe": "./index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
