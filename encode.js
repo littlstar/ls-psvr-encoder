@@ -19,6 +19,7 @@ const daydreamGearProfile = (ffmpegCmd) => {
       '-crf 22',
       '-vsync 1',
       '-profile:a aac_he',
+      '-pixfmt yuv420p',
       '-movflags +faststart',
       '-flags +global_header+loop'
     ])
