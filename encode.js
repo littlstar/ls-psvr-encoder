@@ -6,6 +6,24 @@ const ProgressBar = require('ascii-progress')
 const spawn = require('child_process').spawn
 const term = require('terminal-kit').terminal
 
+const daydreamGearProfile = (ffmpegCmd) => {
+  ffmpegCmd
+    .format('mp4')
+    .videoCodec('libx264')
+    .audioBitrate(160)
+    .audioChannels(2)
+    .outputOptions([
+      '-filter:v scale=2560:h=trunc(ow/a/2)*2:flags=+lanczos+print_info+accurate_rnd+full_chroma_int+full_chroma_inp',
+      '-maxrate 10000k',
+      '-bufsize 20000k',
+      '-crf 22',
+      '-vsync 1',
+      '-profile:a aac_he',
+      '-movflags +faststart',
+      '-flags +global_header+loop'
+    ])
+}
+
 const psvrProfile = (ffmpegCmd) => {
   ffmpegCmd
     .format('mp4')
