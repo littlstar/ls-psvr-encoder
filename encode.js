@@ -84,7 +84,7 @@ const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((res
   f.output(outPath)
   switch (platform) {
     case 'psvr':
-      f.preset(psvrPreset)
+      f.preset(psvrProfile)
       break
     case 'daydream':
     case 'gear':
