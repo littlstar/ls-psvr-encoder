@@ -12,6 +12,11 @@ const argv = require('yargs')
     .alias('i', 'input')
     .nargs('i', 1)
     .describe('i', 'Input video path')
+    .alias('p', 'platform')
+    .nargs('p', 1)
+    .describe('Specify the platform target')
+    .choices('p', ['psvr', 'gear', 'daydream'])
+    .default('p', 'psvr')
     .alias('d', 'degrees')
     .nargs('d', 1)
     .describe('d', 'Specify video degrees')
@@ -59,7 +64,7 @@ term.underline.red(`Outputting PSVR sideload video to ${outputFilePath}\n`)
  * Then perform the transcode and output an interleaved MP4 */
 
 analyze(videoFile).then((videoData) => {
-  return encode(videoFile, videoData, outputFilePath)
+  return encode(videoFile, videoData, outputFilePath, argv.platform)
 }).then((encodedVideoFile) => {
   term.bold(`Encoding complete. Output path: ${encodedVideoFile}`)
 }).catch(err => console.error(err))
