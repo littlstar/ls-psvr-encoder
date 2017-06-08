@@ -19,7 +19,7 @@ const daydreamGearProfile = (ffmpegCmd) => {
       '-crf 22',
       '-vsync 1',
       '-profile:a aac_he',
-      '-pixfmt yuv420p',
+      '-pix_fmt yuv420p',
       '-movflags +faststart',
       '-flags +global_header+loop'
     ])
@@ -63,7 +63,7 @@ const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) =
   f.run()
 })
 
-const encodeVideo = (video, data, outPath, codecs) => new Promise((resolve, reject) => {
+const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((resolve, reject) => {
   const bar = new ProgressBar({
     schema: ` Encoding ${path.basename(video)} @ :fps fps [:bar] :percent `,
     width : 80,
@@ -81,7 +81,19 @@ const encodeVideo = (video, data, outPath, codecs) => new Promise((resolve, reje
     resolve(outPath)
   })
   f.audioCodec(codecs.audio)
-  f.output(outPath).preset(psvrProfile)
+  f.output(outPath)
+  switch (platform) {
+    case 'psvr':
+      f.preset(psvrPreset)
+      break
+    case 'daydream':
+    case 'gear':
+      f.preset(daydreamGearProfile)
+      break
+    default:
+      f.preset(daydreamGearProfile)
+      break
+  }
   if (data.width > 2560) {
     f.size('2560x?')
   } else if (data.width < 2560) {
@@ -124,10 +136,10 @@ const getCodecSupport = () => new Promise((resolve, reject) => {
   } catch (err) { reject(err.stack || err) }
 })
 
-const main = (video, data, outPath) => new Promise((resolve, reject) => {
+const main = (video, data, outPath, platform) => new Promise((resolve, reject) => {
   getCodecSupport().then(codecs => {
     return Promise.all([
-      encodeVideo(video, data, outPath, codecs),
+      encodeVideo(video, data, outPath, codecs, platform),
       grabScreenshot(video, data, outPath)
     ])
   }).then((outputs) => {
