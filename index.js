@@ -36,7 +36,7 @@ const argv = require('yargs')
              'encode 180 degree over-under stereoscopic video')
     .example('node $0 -i myvideo.mp4 -d 360 -t sbs -o /work/encodes',
              'encode 360 degree side-by-side stereoscopic video, output to /work/encodes directory')
-    .epilog('Email media@littlstar.com for assistance/accolades.\n\nCopyright 2017 Little Star Media, Inc.')
+    .epilog('Email media@littlstar.com for assistance/accolades.\n\nCopyright 2018 Little Star Media, Inc.')
     .demandOption(['i'])
     .showHelpOnFail(false, 'Specify --help for options')
     .argv
