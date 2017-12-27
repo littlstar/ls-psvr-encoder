@@ -1,6 +1,6 @@
 # ls-psvr-encoder
 
-A simple command line tool to encode your 180 and 360 videos for sideloading with Littlstar's VR Cinema app for PSVR.
+A simple command line tool to encode your 180, 360, and fixed-frame videos for sideloading with Littlstar's VR Cinema apps.
 
 ## Dependencies
 
