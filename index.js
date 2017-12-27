@@ -25,7 +25,7 @@ const argv = require('yargs')
     .alias('t', 'type')
     .nargs('t', 1)
     .describe('t', 'Input video type')
-    .choices('t', ['sbs', 'ou', 'mono', '2D'])
+    .choices('t', ['sbs', 'ou', 'mono', '2d'])
     .default('t', 'mono')
     .alias('o', 'outputDirectory')
     .nargs('o', 1)
@@ -56,9 +56,19 @@ const videoFile = path.resolve(argv.input)
 const videoBase = path.basename(videoFile).split('.')[0]
 const videoDir = path.dirname(videoFile)
 let outputFilePath = `${argv.outputDirectory || videoDir}/${videoBase.toLowerCase()}_${argv.platform}`
-if (argv.degrees) outputFilePath = `${outputFilePath}_${argv.degrees}`
-if (argv.type) outputFilePath = `${outputFilePath}_${argv.type}`
-outputFilePath = `${outputFilePath}.mp4`
+switch (argv.degrees) {
+  case 360:
+  case 180:
+    outputFilePath = `${outputFilePath}_${argv.degrees}_${argv.type}.mp4`
+    break
+  case 0:
+    if (argv.type === 'mono' || argv.type === '2d') {
+      outputFilePath = `${outputFilePath}_2dff.mp4`
+    } else if (argv.type === 'sbs' || argv.type === 'ou') {
+      outputFilePath = `${outputFilePath}_3dff_${argv.type}.mp4`
+    }
+    break
+}
 term.underline.red(`Outputting PSVR sideload video to ${outputFilePath}\n`)
 
 
