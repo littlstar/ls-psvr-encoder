@@ -8,6 +8,7 @@ A command line tool to encode your 180, 360, and fixed-frame videos for sideload
 * Supports **360**, **180**, and **fixed-frame** video projections.
 * Supports monoscopic, over-under, and side-by-side formats.
 * Properly names encoded videos for compatibility with VR Cinema's file naming conventions.
+* Subtitle track overlay (for 2D fixed-frame video only)
 * Embeds a thumbnail into the output video for easier library navigation.
 
 ## Usage

@@ -28,7 +28,7 @@ const argv = require('yargs')
     .default('t', 'mono')
     .alias('s', 'subtitles')
     .nargs('s', 1)
-    .describe('s', 'Path to subtitle track to overlay on top of video')
+    .describe('s', 'Path to subtitle track to overlay on top of video (2dff only)')
     .alias('o', 'outputDirectory')
     .nargs('o', 1)
     .describe('o', 'Output directory (default: same as input path)')
@@ -91,6 +91,10 @@ switch (argv.degrees) {
     if (argv.type === 'mono' || argv.type === '2d') {
       outputFilePath = `${outputFilePath}_2dff.mp4`
     } else if (argv.type === 'sbs' || argv.type === 'ou') {
+      if (argv.subtitles) {
+        term.bold(`Subtitles not supported for 3D video.\n`)
+        process.exit(1)
+      }
       outputFilePath = `${outputFilePath}_3dff_${argv.type}.mp4`
     }
     break
