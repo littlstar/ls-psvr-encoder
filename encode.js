@@ -46,6 +46,24 @@ const psvrProfile = (ffmpegCmd) => {
     ])
 }
 
+const windowsProfile = (ffmpegCmd) => {
+  ffmpegCmd
+    .format('mp4')
+    .videoCodec('libx264')
+    .audioFrequency(48000)
+    .audioChannels(2)
+    .audioBitrate('320k')
+    .outputOptions([
+      '-pix_fmt', 'yuv420p',
+      '-crf', '19',
+      '-profile:v', 'High',
+      '-level:v', '5.1',
+      '-threads', '0',
+      '-movflags', '+faststart',
+      '-flags', '+global_header'
+    ])
+}
+
 const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) => {
   const seek = parseInt((data.duration / 3).toFixed(0), 10) || 15
   const screenOutput = `${outPath}_screenshot.jpg`
@@ -54,9 +72,9 @@ const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) =
   f.outputOptions(['-vframes', '1', '-q:v', '2'])
   f.output(screenOutput)
   f.on('start', () => term.bold('Grabbing screenshot...'))
-  f.on('error', (err, stdout, stderr) => console.log(err, stdout, stderr))
+  f.on('error', (err, stdout, stderr) => term.bold(`${err}\n${stdout}\n${stderr}\n`))
   f.on('end', () => {
-    term.bold(`Screenshot saved to ${screenOutput}`)
+    term.bold(`Screenshot saved to ${screenOutput}\n`)
     resolve(screenOutput)
   })
   f.run()
@@ -83,8 +101,10 @@ const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((res
   f.output(outPath)
   switch (platform) {
     case 'psvr':
-    case 'windowsmr':
       f.preset(psvrProfile)
+      break
+    case 'windowsmr':
+      f.preset(windowsProfile)
       break
     case 'daydream':
     case 'gear':
