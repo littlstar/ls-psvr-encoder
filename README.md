@@ -18,6 +18,16 @@ Getting started is easy for Linux users, too. To get started, elicit the followi
 
 *As of version 0.3.4, default command line options are no longer offered, due to the growing number of platforms this tool now supports. To get a list of all available CLI options, run `lspe -h` for a detailed help output.*
 
+#### macOS
+
+macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide to get everything installed and running quickly.
+
+*If you do not wish to use homebrew, you may install the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)*
+
+#### Linux
+
+Use your distribution's package manager to install `MP4Box`, `libx264`, and `ffmpeg`.
+
 ## Dependencies
 
 ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS). Windows 10 is not supported yet, but we are working on it!
@@ -31,16 +41,6 @@ Also the following binary applications are required:
 * MP4Box
 
 See the [FFmpeg](https://ffmpeg.org) and [GPAC](https://gpac.io) project pages for more information about these dependencies.
-
-#### macOS
-
-macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide to get everything installed and running quickly.
-
-*If you do not wish to use homebrew, you may install the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)*
-
-#### Linux
-
-Use your distribution's package manager to install `MP4Box`, `libx264`, and `ffmpeg`.
 
 ## Notes
 
