@@ -48,6 +48,8 @@ Use your distribution's package manager to install `MP4Box` (commonly found in t
 
 Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should work fine with this tool. If your source video is footage taken straight from the RAW output of a high-end camera, or if your source video is packaged in one of the more esoteric containers that are out there, you may need to convert or re-mux as necessary so that the file can be read via FFmpeg.
 
+Traditional planar video is now (experimentally) supported, in both 2D and 3D (over-under & side-by-side) formats. If any issues are experienced with these kinds of video, we welcome users to submit a new issue to help us address all possible use-cases.
+
 **At this time, only stereo audio is supported for sideloaded content. If your source video contains only a multichannel or spatial audio track, it will be downmixed to stereo for compatibility.**
 
 ### PSVR File Sizes
@@ -57,3 +59,9 @@ When encoding for PSVR, the output video file's size may big larger than the inp
 ### Feature Requests
 
 We welcome feature requests! Simply open a new Github issue detailing the feature you'd like us to consider. If available, a link pointing to some test content is extremely helpful to include in the issue. We offer an anonymous and private delivery portal for sensitive/private files. You may request access to this portal by sending an email to media@littlstar.com.
+
+#### Planned Features
+
+* Subtitle track video overlay support
+* (3D) BluRay support
+* HDR and 10-bit color
