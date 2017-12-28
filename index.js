@@ -15,7 +15,7 @@ const argv = require('yargs')
     .alias('p', 'platform')
     .nargs('p', 1)
     .describe('Specify the platform target')
-    .choices('p', ['psvr', 'gear', 'daydream'])
+    .choices('p', ['psvr', 'gear', 'daydream', 'windowsmr'])
     .default('p', 'psvr')
     .alias('d', 'degrees')
     .nargs('d', 1)
@@ -31,8 +31,8 @@ const argv = require('yargs')
     .describe('o', 'Output directory (default: same as input path)')
     .help('h')
     .alias('h', 'help')
-    .example('node $0 -i myvideo.mp4',
-             'encode myvideo.mp4 with default options (360 degrees, monoscopic, outputs to same dir as input)')
+    .example('node $0 -i myvideo.mp4 -d 360 -t mono',
+             'encode 360 degree monoscopic video; outputs to same dir as input')
     .example('node $0 -i myvideo.mp4 -d 180 -t ou',
              'encode 180 degree over-under stereoscopic video')
     .example('node $0 -i myvideo.mp4 -d 360 -t sbs -o /work/encodes',

@@ -84,6 +84,7 @@ const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((res
   f.output(outPath)
   switch (platform) {
     case 'psvr':
+    case 'windowsmr':
       f.preset(psvrProfile)
       break
     case 'daydream':
