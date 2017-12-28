@@ -21,7 +21,6 @@ const argv = require('yargs')
     .nargs('d', 1)
     .describe('d', 'Specify video degrees, or 0 for flat/fixed-frame')
     .choices('d', [0, 180, 360])
-    .default('d', 0)
     .alias('t', 'type')
     .nargs('t', 1)
     .describe('t', 'Input video type')
@@ -87,6 +86,10 @@ switch (argv.degrees) {
     } else if (argv.type === 'sbs' || argv.type === 'ou') {
       outputFilePath = `${outputFilePath}_3dff_${argv.type}.mp4`
     }
+    break
+  default:
+    term.bold(`Video degrees not specified; see --help for usage information.\n`)
+    process.exit(1)
     break
 }
 term.underline.red(`Outputting PSVR sideload video to ${outputFilePath}\n`)
