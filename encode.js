@@ -114,6 +114,7 @@ const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((res
       f.preset(daydreamGearProfile)
       break
   }
+  f.outputOptions(['-map_metadata', '-1']) // Don't copy input metadata to output
   if (data.width > 2560) {
     f.size('2560x?')
   } else if (data.width < 2560) {
