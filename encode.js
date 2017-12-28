@@ -92,7 +92,7 @@ const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((res
   f.on('error', (err) => {
     term.red(err)
     term.bold.red('\nHint: did you remember to install FFmpeg with x264 support?\n')
-    process.exit(1)
+    reject(err)
   })
   f.on('end', () => {
     resolve(outPath)
@@ -100,9 +100,6 @@ const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((res
   f.audioCodec(codecs.audio)
   f.output(outPath)
   switch (platform) {
-    case 'psvr':
-      f.preset(psvrProfile)
-      break
     case 'windowsmr':
       f.preset(windowsProfile)
       break
@@ -110,8 +107,9 @@ const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((res
     case 'gear':
       f.preset(daydreamGearProfile)
       break
+    case 'psvr':
     default:
-      f.preset(daydreamGearProfile)
+      f.preset(psvrProfile)
       break
   }
   f.outputOptions(['-map_metadata', '-1']) // Don't copy input metadata to output
