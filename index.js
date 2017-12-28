@@ -26,6 +26,9 @@ const argv = require('yargs')
     .describe('t', 'Input video type')
     .choices('t', ['sbs', 'ou', 'mono', '2d'])
     .default('t', 'mono')
+    .alias('s', 'subtitles')
+    .nargs('s', 1)
+    .describe('s', 'Path to subtitle track to overlay on top of video')
     .alias('o', 'outputDirectory')
     .nargs('o', 1)
     .describe('o', 'Output directory (default: same as input path)')
@@ -37,8 +40,8 @@ const argv = require('yargs')
              'encode 180 degree over-under stereoscopic video')
     .example('node $0 -i myvideo.mp4 -d 360 -t sbs -o /work/encodes',
              'encode 360 degree side-by-side stereoscopic video, output to /work/encodes directory')
-    .example('node $0 -i myvideo.mp4 -d 0 -t 2d -p windowsmr',
-             'encode a 2D flat video for viewing in theater mode for Windows MR')
+    .example('node $0 -i myvideo.mp4 -d 0 -t 2d -p windowsmr -s mysubtitles.srt',
+             'encode a 2D flat video with overlayed subtitles for viewing in theater mode for Windows MR')
     .epilog('Email media@littlstar.com for assistance/accolades.\n\nCopyright 2018 Little Star Media, Inc.')
     .demandOption(['input', 'degrees'])
     .showHelpOnFail(false, 'Specify --help for options')
@@ -78,6 +81,10 @@ let outputFilePath = `${argv.outputDirectory || videoDir}/${videoBase.toLowerCas
 switch (argv.degrees) {
   case 360:
   case 180:
+    if (argv.subtitles) {
+      term.bold(`Subtitles not supported for 360 or 180 video.\n`)
+      process.exit(1)
+    }
     outputFilePath = `${outputFilePath}_${argv.degrees}_${argv.type}.mp4`
     break
   case 0:
@@ -99,7 +106,7 @@ term.underline.red(`Outputting PSVR sideload video to ${outputFilePath}\n`)
  * Then perform the transcode and output an interleaved MP4 */
 
 analyze(videoFile).then((videoData) => {
-  return encode(videoFile, videoData, outputFilePath, argv.platform)
+  return encode(videoFile, videoData, outputFilePath, argv)
 }).then((encodedVideoFile) => {
   term.bold(`Encoding complete. Output path: ${encodedVideoFile}`)
 }).catch(err => {

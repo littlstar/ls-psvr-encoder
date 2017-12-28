@@ -80,12 +80,13 @@ const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) =
   f.run()
 })
 
-const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((resolve, reject) => {
+const encodeVideo = (video, data, outPath, codecs, args) => new Promise((resolve, reject) => {
   const bar = new ProgressBar({
     schema: ` Encoding ${path.basename(video)} @ :fps fps [:bar] :percent `,
     width : 80,
     total : 100
   })
+  const platform = args.platform
   const f = ffmpeg(video)
   f.on('start', () => term.bold('Encoding video...\n'))
   f.on('progress', prog => bar.update((prog.percent / 100), { fps: prog.currentFps }))
@@ -117,6 +118,9 @@ const encodeVideo = (video, data, outPath, codecs, platform) => new Promise((res
     f.size('2560x?')
   } else if (data.width < 2560) {
     f.size(`${data.width}x?`)
+  }
+  if (args.subtitles) {
+    f.videoFilters(`subtitles=${path.resolve(args.subtitles)}`)
   }
   f.run()
 })
@@ -155,10 +159,10 @@ const getCodecSupport = () => new Promise((resolve, reject) => {
   } catch (err) { reject(err.stack || err) }
 })
 
-const main = (video, data, outPath, platform) => new Promise((resolve, reject) => {
+const main = (video, data, outPath, args) => new Promise((resolve, reject) => {
   getCodecSupport().then(codecs => {
     return Promise.all([
-      encodeVideo(video, data, outPath, codecs, platform),
+      encodeVideo(video, data, outPath, codecs, args),
       grabScreenshot(video, data, outPath)
     ])
   }).then((outputs) => {
