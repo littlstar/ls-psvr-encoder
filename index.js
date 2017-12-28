@@ -40,7 +40,7 @@ const argv = require('yargs')
     .example('node $0 -i myvideo.mp4 -d 0 -t 2d -p windowsmr',
              'encode a 2D flat video for viewing in theater mode for Windows MR')
     .epilog('Email media@littlstar.com for assistance/accolades.\n\nCopyright 2018 Little Star Media, Inc.')
-    .demandOption(['i'])
+    .demandOption(['input', 'degrees'])
     .showHelpOnFail(false, 'Specify --help for options')
     .argv
 
