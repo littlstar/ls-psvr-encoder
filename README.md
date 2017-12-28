@@ -4,8 +4,8 @@ A command line tool to encode your 180, 360, and fixed-frame videos for sideload
 
 ## Features
 
-* Encoding profiles for Littlstar's VR Cinema apps on the PSVR, Daydream, GearVR, and WindowsMR platforms.
-* Supports 360, 180, and fixed-frame video projections.
+* Encoding profiles for Littlstar's VR Cinema apps on the **Playstation VR**, **Google Daydream**, **Samsung Gear VR**, and **Microsoft Windows MR** platforms.
+* Supports **360**, **180**, and **fixed-frame** video projections.
 * Supports monoscopic, over-under, and side-by-side formats.
 * Properly names encoded videos for compatibility with VR Cinema's file naming conventions.
 * Embeds a thumbnail into the output video for easier library navigation.
@@ -14,21 +14,11 @@ A command line tool to encode your 180, 360, and fixed-frame videos for sideload
 
 **macOS users may use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide.**
 
-Getting started is easy for Linux users, too. To get started, elicit the following command: `npm install littlstar/ls-psvr-encoder -g`. This will place the application into your `PATH`, and can be executed by eliciting the command `lspe`.
+Getting started is easy for Linux users, too. To get started, elicit the following command: `npm install littlstar/ls-psvr-encoder -g`. This will place the application into your PATH, and can be executed by eliciting the command `lspe`.
 
 *As of version 0.3.4, default command line options are no longer offered, due to the growing number of platforms this tool now supports. To get a list of all available CLI options, run `lspe -h` for a detailed help output.*
 
-#### macOS
-
-macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide to get everything installed and running quickly.
-
-*If you do not wish to use homebrew, you may install the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)*
-
-#### Linux
-
-Use your distribution's package manager to install `MP4Box`, `libx264`, and `ffmpeg`.
-
-## Dependencies
+### Dependencies
 
 ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS). Windows 10 is not supported yet, but we are working on it!
 
@@ -42,6 +32,16 @@ Also the following binary applications are required:
 
 See the [FFmpeg](https://ffmpeg.org) and [GPAC](https://gpac.io) project pages for more information about these dependencies.
 
+#### macOS
+
+macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide to get everything installed and running quickly.
+
+*If you do not wish to use homebrew, you may install the following binary builds for [FFmpeg](https://evermeet.cx/ffmpeg/ffmpeg-3.2.4.dmg) and [MP4Box](http://download.tsi.telecom-paristech.fr/gpac/latest_builds/macosx_64/gpac-0.6.2-DEV-latest-master.dmg)*
+
+#### Linux
+
+Use your distribution's package manager to install `MP4Box` (commonly found in the `gpac` package), `libx264` (8-bit version), and `ffmpeg`.
+
 ## Notes
 
 ### Video/Audio Compatibility
@@ -50,5 +50,10 @@ Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should 
 
 **At this time, only stereo audio is supported for sideloaded content. If your source video contains only a multichannel or spatial audio track, it will be downmixed to stereo for compatibility.**
 
-### File Sizes
-The output video file may big larger than the input. This is because the Playstation 4's hardware and decoding capabilities are not up to today's standards, and smaller file sizes place too much strain on the system. Making the files bigger allows the PS4 to work less as hard to play the content, leading to fewer buffering events that lead to a poor experience.
+### PSVR File Sizes
+
+When encoding for PSVR, the output video file's size may big larger than the input's was. This is because the Playstation 4's hardware and decoding capabilities are a bit limited compared to more contemporary devices. Smaller file sizes make content more compressed, which can place too much strain on the PS4's graphics hardware during de-compression. Making the files bigger allows the PS4 to work less hard to play the content, leading to fewer buffering events.
+
+### Feature Requests
+
+We welcome feature requests! Simply open a new Github issue detailing the feature you'd like us to consider. If available, a link pointing to some test content is extremely helpful to include in the issue. We offer an anonymous and private delivery portal for sensitive/private files. You may request access to this portal by sending an email to media@littlstar.com.
