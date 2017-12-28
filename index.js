@@ -38,15 +38,35 @@ const argv = require('yargs')
              'encode 180 degree over-under stereoscopic video')
     .example('node $0 -i myvideo.mp4 -d 360 -t sbs -o /work/encodes',
              'encode 360 degree side-by-side stereoscopic video, output to /work/encodes directory')
+    .example('node $0 -i myvideo.mp4 -d 0 -t 2d',
+             'encode a 2D flat video for viewing in theater mode')
     .epilog('Email media@littlstar.com for assistance/accolades.\n\nCopyright 2018 Little Star Media, Inc.')
     .demandOption(['i'])
     .showHelpOnFail(false, 'Specify --help for options')
     .argv
 
+
+/* Handle uncaught errors */
+
+const unhandledRejections = new Map()
+process.on('unhandledRejection', (reason, p) => {
+  unhandledRejections.set(p, reason)
+  term.red(`Unexpected error occurred: ${reason}`)
+})
+process.on('uncaughtException', (err) => {
+  term.red(err)
+})
+process.on('exit', (code) => {
+  term.red(`About to exit with code: ${code}`)
+})
+
 term.bold.red(header)
 
 checks.deps().then(appBinaries => {
   term.bold(`Found all necessary dependencies.\n`)
+}).catch(err => {
+  term.bold(`Dependencies not satisfied. Exiting.\n`)
+  process.exit(1)
 })
 
 
@@ -82,16 +102,3 @@ analyze(videoFile).then((videoData) => {
 }).catch(err => console.error(err))
 
 
-/* Handle uncaught errors */
-
-const unhandledRejections = new Map()
-process.on('unhandledRejection', (reason, p) => {
-  unhandledRejections.set(p, reason)
-  term.red(`Unexpected error occurred: ${reason}`)
-})
-process.on('uncaughtException', (err) => {
-  term.red(err)
-})
-process.on('exit', (code) => {
-  term.red(`About to exit with code: ${code}`)
-})
