@@ -1,10 +1,26 @@
 # ls-psvr-encoder
 
-A simple command line tool to encode your 180, 360, and fixed-frame videos for sideloading with Littlstar's VR Cinema apps.
+A command line tool to encode your 180, 360, and fixed-frame videos for sideloading with Littlstar's VR Cinema apps.
+
+## Features
+
+* Encoding profiles for Littlstar's VR Cinema apps on the PSVR, Daydream, GearVR, and WindowsMR platforms.
+* Supports 360, 180, and fixed-frame video projections.
+* Supports monoscopic, over-under, and side-by-side formats.
+* Properly names encoded videos for compatibility with VR Cinema's file naming conventions.
+* Embeds a thumbnail into the output video for easier library navigation.
+
+## Usage
+
+**macOS users may use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide.**
+
+Getting started is easy for Linux users, too. To get started, elicit the following command: `npm install littlstar/ls-psvr-encoder -g`. This will place the application into your `PATH`, and can be executed by eliciting the command `lspe`.
+
+*As of version 0.3.4, default command line options are no longer offered, due to the growing number of platforms this tool now supports. To get a list of all available CLI options, run `lspe -h` for a detailed help output.*
 
 ## Dependencies
 
-ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS). Windows is not supported yet, but we are working on it!
+ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS). Windows 10 is not supported yet, but we are working on it!
 
 This is a Node CLI application, so Node.JS and npm are both required.
 
@@ -26,22 +42,13 @@ macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encod
 
 Use your distribution's package manager to install `MP4Box`, `libx264`, and `ffmpeg`.
 
-## Video Compatibility
+## Notes
+
+### Video/Audio Compatibility
 
 Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should work fine with this tool. If your source video is footage taken straight from the RAW output of a high-end camera, or if your source video is packaged in one of the more esoteric containers that are out there, you may need to convert or re-mux as necessary so that the file can be read via FFmpeg.
 
-**At this time, only stereo audio is supported on the VR Cinema PSVR app. If your source video contains only a multichannel audio track, it will be downmixed to stereo for compatibility.**
+**At this time, only stereo audio is supported for sideloaded content. If your source video contains only a multichannel or spatial audio track, it will be downmixed to stereo for compatibility.**
 
-## Usage
-
-**macOS users may use the [Quick Start](https://github.com/littlstar/ls-psvr-encoder/wiki#quick-start-guide-macos) guide.**
-
-Getting started is easy for Linux users, too. To get started, elicit the following command: `npm install littlstar/ls-psvr-encoder -g`. This will place the application into your `PATH`, and can be executed by eliciting the command `lspe`.
-
-Basic functionality is achieved by running `lspe -i /path/to/video.mp4`. This will assume default values regarding the input video (monoscopic, 360) and will output to the same directory that holds the input file (in this case, `/path/to`). The output file will be renamed to match the PSVR app's requirements, i.e. `/path/to/video_psvr.mp4`.
-
-To get more granular options, run `lspe -h` for a more detailed help output.
-
-## Notes
-
+### File Sizes
 The output video file may big larger than the input. This is because the Playstation 4's hardware and decoding capabilities are not up to today's standards, and smaller file sizes place too much strain on the system. Making the files bigger allows the PS4 to work less as hard to play the content, leading to fewer buffering events that lead to a poor experience.
