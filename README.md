@@ -53,6 +53,10 @@ Traditional planar video is now (experimentally) supported, in both 2D and 3D (o
 
 **At this time, only stereo audio is supported for sideloaded content. If your source video contains only a multichannel or spatial audio track, it will be downmixed to stereo for compatibility.**
 
+### Subtitles
+
+Subtitle files (SRT) may be overlayed onto 2D fixed-frame videos. This feature generates subtitles on top of the video, so they are burned into the resulting file. The subtitles, therefore, cannot be hidden during playback.
+
 ### PSVR File Sizes
 
 When encoding for PSVR, the output video file's size may big larger than the input's was. This is because the Playstation 4's hardware and decoding capabilities are a bit limited compared to more contemporary devices. Smaller file sizes make content more compressed, which can place too much strain on the PS4's graphics hardware during de-compression. Making the files bigger allows the PS4 to work less hard to play the content, leading to fewer buffering events.
@@ -63,6 +67,6 @@ We welcome feature requests! Simply open a new Github issue detailing the featur
 
 #### Planned Features
 
-* Subtitle track video overlay support
+* Expanded subtitle track support
 * (3D) BluRay support
 * HDR and 10-bit color
