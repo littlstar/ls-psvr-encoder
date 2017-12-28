@@ -47,7 +47,6 @@ const psvrProfile = (ffmpegCmd) => {
 }
 
 const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) => {
-  // ffmpeg -ss 01:23:45 -i input -vframes 1 -q:v 2 output.jpg
   const seek = parseInt((data.duration / 3).toFixed(0), 10) || 15
   const screenOutput = `${outPath}_screenshot.jpg`
   const f = ffmpeg(video)

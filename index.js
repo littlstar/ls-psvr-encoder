@@ -102,6 +102,4 @@ analyze(videoFile).then((videoData) => {
   return encode(videoFile, videoData, outputFilePath, argv.platform)
 }).then((encodedVideoFile) => {
   term.bold(`Encoding complete. Output path: ${encodedVideoFile}`)
-}).catch(err => console.error(err))
-
-
+}).catch(err => term.bold(`${err}\n`))
