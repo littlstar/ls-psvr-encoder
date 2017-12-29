@@ -53,7 +53,7 @@ Any equirectangular 180 or 360 video, either monoscopic or stereoscopic, should 
 
 Traditional planar video is now (experimentally) supported, in both 2D and 3D (over-under & side-by-side) formats. If any issues are experienced with these kinds of video, we welcome users to submit a new issue to help us address all possible use-cases.
 
-**At this time, only stereo audio is supported for sideloaded content. If your source video contains only a multichannel or spatial audio track, it will be downmixed to stereo for compatibility.**
+**At this time, only stereo audio is supported for sideloaded content. If your source video contains only a multichannel or spatial audio track, it will be downmixed to stereo for compatibility.** Stereo downmixes made with this tool will not contain any of the LFE audio, in order to prevent saturation/clipping on the encoded video.
 
 ### Subtitles
 
