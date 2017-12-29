@@ -25,13 +25,13 @@ Once you've installed lspe, check out the [Usage Examples](https://github.com/li
 
 ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS). Windows 10 is not supported yet, but we are working on it!
 
-This is a Node CLI application, so Node.JS and npm are both required.
+This is a Node CLI application, so [Node](https://nodejs.org/en/blog/release/v8.9.0/) (8.9.0+) is required.
 
 Also the following binary applications are required:
 
-* FFmpeg compiled with `libx264` and `libfdk_aac` libraries
+* FFmpeg compiled with support for the `libx264`, `libass`, and `libfdk_aac` libraries
 * FFprobe
-* MP4Box
+* MP4Box (a command line tool shipped with the `gpac` libraries)
 
 See the [FFmpeg](https://ffmpeg.org) and [GPAC](https://gpac.io) project pages for more information about these dependencies.
 
