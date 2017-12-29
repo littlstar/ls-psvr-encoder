@@ -17,7 +17,7 @@ A command line tool to encode your 180, 360, and fixed-frame videos for sideload
 
 Getting started is easy for Linux users, too. To get started, elicit the following command: `npm install littlstar/ls-psvr-encoder -g`. This will place the application into your PATH, and can be executed by eliciting the command `lspe`.
 
-*As of version 0.3.4, default command line options are no longer offered, due to the growing number of platforms this tool now supports. To get a list of all available CLI options, run `lspe -h` for a detailed help output.*
+*As of version 0.3.4, default command line options are no longer offered, due to the growing number of platforms this tool now supports. To get a list of all available CLI options, run* `lspe -h` *for a detailed help output.*
 
 ### Dependencies
 
