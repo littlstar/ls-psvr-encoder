@@ -65,7 +65,7 @@ When encoding for PSVR, the output video file's size may big larger than the inp
 
 ### Feature Requests
 
-We welcome feature requests! Simply open a new Github issue detailing the feature you'd like us to consider. If available, a link pointing to some test content is extremely helpful to include in the issue. We offer an anonymous and private delivery portal for sensitive/private files. You may request access to this portal by sending an email to media@littlstar.com.
+We welcome feature requests! Simply open a new Github issue detailing the feature you'd like us to consider. If available, a link pointing to some test content is extremely helpful to include in the issue. We offer an anonymous and private delivery portal for files of a sensitive nature. You may request access to this portal by sending an email to media@littlstar.com.
 
 #### Planned Features
 
