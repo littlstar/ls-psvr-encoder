@@ -25,7 +25,7 @@ Once you've installed lspe, check out the [Usage Examples](https://github.com/li
 
 ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS). Windows 10 is not supported yet, but we are working on it!
 
-This is a Node CLI application, so [Node](https://nodejs.org/en/blog/release/v8.9.0/) (8.9.0+) is required.
+This is a Node CLI application, so [Node](https://nodejs.org/en/blog/release/v8.9.0/) is required. We recommend using at least Node 8.9.0, the current LTS version. Versions <7 have been found to cause installation issues on Linux, and could potentially be problematic on other OSes as well.
 
 Also the following binary applications are required:
 
