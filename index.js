@@ -59,7 +59,9 @@ process.on('uncaughtException', (err) => {
   term.red(err)
 })
 process.on('exit', (code) => {
-  term.red(`About to exit with code: ${code}`)
+  if (code !== 0) {
+    term.red(`\n\nAbout to exit with code: ${code}\n\n`)
+  }
 })
 
 term.bold.red(header)
