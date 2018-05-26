@@ -55,10 +55,10 @@ https://www.microsoft.com/store/productId/9N9TNGVNDL3Q
 
 launch, allow for the setup to install and complete, create a username and password when prompted.  Once you are at the Ubuntu terminal prompt, the following commands can be performed:
 
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install gpac ffmpeg npm
-sudo npm install littlstar/ls-psvr-encoder -g
+ sudo apt-get update
+ sudo apt-get upgrade
+ sudo apt-get install gpac ffmpeg npm
+ sudo npm install littlstar/ls-psvr-encoder -g
 
 ## Notes
 
