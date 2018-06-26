@@ -23,7 +23,7 @@ Once you've installed lspe, check out the [Usage Examples](https://github.com/li
 
 ### Dependencies
 
-ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS). Windows 10 is not supported yet, but we are working on it!
+ls-psvr-encoder has been tested on the latest macOS as well as several flavors of Linux (Ubuntu, Debian, Arch, CentOS) and Windows 10 using the Ubuntu subsystem.
 
 This is a Node CLI application, so [Node](https://nodejs.org/en/blog/release/v8.9.0/) is required. We recommend using at least Node 8.9.0, the current LTS version. Versions <7 have been found to cause installation issues on Linux, and could potentially be problematic on other OSes as well.
 
@@ -45,6 +45,22 @@ macOS users can use the [Quick Start](https://github.com/littlstar/ls-psvr-encod
 
 Use your distribution's package manager to install `MP4Box` (commonly found in the `gpac` package), `libx264` (8-bit version), and `ffmpeg`.
 
+#### Windows
+
+Windows isn't currently supported natively, however if you have a recent version of Windows 10, you can install the Ubuntu subsystem under Windows.
+
+Install the Ubuntu free store app. 
+
+https://www.microsoft.com/store/productId/9N9TNGVNDL3Q
+
+launch, allow for the setup to install and complete, create a username and password when prompted.  Once you are at the Ubuntu terminal prompt, the following commands can be performed:
+
+```
+ sudo apt-get update
+ sudo apt-get upgrade
+ sudo apt-get install gpac ffmpeg npm
+ sudo npm install littlstar/ls-psvr-encoder -g
+```
 ## Notes
 
 ### Video/Audio Compatibility
