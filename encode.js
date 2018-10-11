@@ -3,8 +3,9 @@
 const ffmpeg = require('fluent-ffmpeg')
 const path = require('path')
 const ProgressBar = require('ascii-progress')
-const spawn = require('child_process').spawn
 const term = require('terminal-kit').terminal
+const interleave = require('./interleave')
+const grabScreenshot = require('./screenshot')
 
 const daydreamGearProfile = (ffmpegCmd) => {
   ffmpegCmd
@@ -64,22 +65,6 @@ const windowsProfile = (ffmpegCmd) => {
     ])
 }
 
-const grabScreenshot = (video, data, outPath) => new Promise((resolve, reject) => {
-  const seek = parseInt((data.duration / 3).toFixed(0), 10) || 15
-  const screenOutput = `${outPath}_screenshot.jpg`
-  const f = ffmpeg(video)
-  f.inputOptions(['-ss', `${seek}`])
-  f.outputOptions(['-vframes', '1', '-q:v', '2'])
-  f.output(screenOutput)
-  f.on('start', () => term.bold('Grabbing screenshot...'))
-  f.on('error', (err, stdout, stderr) => term.bold(`${err}\n${stdout}\n${stderr}\n`))
-  f.on('end', () => {
-    term.bold(`Screenshot saved to ${screenOutput}\n`)
-    resolve(screenOutput)
-  })
-  f.run()
-})
-
 const encodeVideo = (video, data, outPath, codecs, args) => new Promise((resolve, reject) => {
   const bar = new ProgressBar({
     schema: ` Encoding ${path.basename(video)} @ :fps fps [:bar] :percent `,
@@ -125,20 +110,6 @@ const encodeVideo = (video, data, outPath, codecs, args) => new Promise((resolve
   f.run()
 })
 
-const interleave = outputs => new Promise((resolve, reject) => {
-  const command = spawn('MP4Box', [
-    '-inter', '1000', '-itags', `cover=${outputs[1]}`, outputs[0]
-  ])
-  command.stderr.on('data', (data) => console.log(`${data}`))
-  command.on('error', (err) => {
-    term.bold.red('\nSomething went wrong!\nHint: did you remember to install MP4Box?\n')
-    reject(err.stack || err)
-  })
-  command.on('close', () => {
-    resolve(outputs[0])
-  })
-})
-
 const getCodecSupport = () => new Promise((resolve, reject) => {
   try {
     const useCodecs = { video: 'libx264' }
@@ -156,7 +127,7 @@ const getCodecSupport = () => new Promise((resolve, reject) => {
         resolve(useCodecs)
       }
     })
-  } catch (err) { reject(err.stack || err) }
+  } catch (err) { reject(err) }
 })
 
 const main = (video, data, outPath, args) => new Promise((resolve, reject) => {
@@ -169,7 +140,7 @@ const main = (video, data, outPath, args) => new Promise((resolve, reject) => {
     return interleave(outputs)
   }).then((interleaved) => {
     resolve(interleaved)
-  }).catch(err => reject(err.stack || err))
+  }).catch(err => reject(err))
 })
 
 module.exports = main
