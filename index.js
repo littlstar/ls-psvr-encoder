@@ -4,6 +4,7 @@
 const analyze = require('./analyze')
 const checks = require('./checks')
 const encode = require('./encode')
+const cover = require('./cover')
 const header = require('./assets/ls')
 const path = require('path')
 const term = require('terminal-kit').terminal
@@ -29,6 +30,9 @@ const argv = require('yargs')
     .alias('s', 'subtitles')
     .nargs('s', 1)
     .describe('s', 'Path to subtitle track to overlay on top of video (2dff only)')
+    .alias('c', 'cover')
+    .nargs('c', 0)
+    .describe('c', 'Embed cover into input video')
     .alias('o', 'outputDirectory')
     .nargs('o', 1)
     .describe('o', 'Output directory (default: same as input path)')
@@ -36,6 +40,8 @@ const argv = require('yargs')
     .alias('h', 'help')
     .example('node $0 -i myvideo.mp4 -d 360 -t mono',
              'encode 360 degree monoscopic video; outputs to same dir as input')
+    .example('node $0 -i myvideo.mp4 -c',
+             'embed cover into input video')
     .example('node $0 -i myvideo.mp4 -d 180 -t ou',
              'encode 180 degree over-under stereoscopic video')
     .example('node $0 -i myvideo.mp4 -d 360 -t sbs -o /work/encodes',
@@ -43,7 +49,7 @@ const argv = require('yargs')
     .example('node $0 -i myvideo.mp4 -d 0 -t 2d -p windowsmr -s mysubtitles.srt',
              'encode a 2D flat video with overlayed subtitles for viewing in theater mode for Windows MR')
     .epilog('Email media@littlstar.com for assistance/accolades.\n\nCopyright 2018 Little Star Media, Inc.')
-    .demandOption(['input', 'degrees'])
+    .demandOption(['input'])
     .showHelpOnFail(false, 'Specify --help for options')
     .argv
 
@@ -79,43 +85,59 @@ checks.deps().then(appBinaries => {
 const videoFile = path.resolve(argv.input)
 const videoBase = path.basename(videoFile).split('.')[0]
 const videoDir = path.dirname(videoFile)
+
 let outputFilePath = `${argv.outputDirectory || videoDir}/${videoBase.toLowerCase()}_${argv.platform}`
-switch (argv.degrees) {
-  case 360:
-  case 180:
-    if (argv.subtitles) {
-      term.bold(`Subtitles not supported for 360 or 180 video.\n`)
-      process.exit(1)
-    }
-    outputFilePath = `${outputFilePath}_${argv.degrees}_${argv.type}.mp4`
-    break
-  case 0:
-    if (argv.type === 'mono' || argv.type === '2d') {
-      outputFilePath = `${outputFilePath}_2dff.mp4`
-    } else if (argv.type === 'sbs' || argv.type === 'ou') {
+
+if (argv.cover) {
+  analyze(videoFile).then((videoData) => {
+    return cover(videoFile, videoData, outputFilePath, argv)
+  }).then((encodedVideoFile) => {
+    term.bold(`Encoding complete. Output path: ${encodedVideoFile}`)
+  }).catch(err => {
+    term.bold(`${err.stack || err}\n`)
+    process.exit(1)
+  })
+} else if (argv.degrees) {
+  switch (argv.degrees) {
+    case 360:
+    case 180:
       if (argv.subtitles) {
-        term.bold(`Subtitles not supported for 3D video.\n`)
+        term.bold(`Subtitles not supported for 360 or 180 video.\n`)
         process.exit(1)
       }
-      outputFilePath = `${outputFilePath}_3dff_${argv.type}.mp4`
-    }
-    break
-  default:
-    term.bold(`Video degrees not specified; see --help for usage information.\n`)
+      outputFilePath = `${outputFilePath}_${argv.degrees}_${argv.type}.mp4`
+      break
+    case 0:
+      if (argv.type === 'mono' || argv.type === '2d') {
+        outputFilePath = `${outputFilePath}_2dff.mp4`
+      } else if (argv.type === 'sbs' || argv.type === 'ou') {
+        if (argv.subtitles) {
+          term.bold(`Subtitles not supported for 3D video.\n`)
+          process.exit(1)
+        }
+        outputFilePath = `${outputFilePath}_3dff_${argv.type}.mp4`
+      }
+      break
+    default:
+      term.bold(`Video degrees not specified; see --help for usage information.\n`)
+      process.exit(1)
+      break
+  }
+
+  term.underline.red(`Outputting PSVR sideload video to ${outputFilePath}\n`)
+
+  /* Analyze the video file to determine exact encoding targets
+   * Then perform the transcode and output an interleaved MP4 */
+
+  analyze(videoFile).then((videoData) => {
+    return encode(videoFile, videoData, outputFilePath, argv)
+  }).then((encodedVideoFile) => {
+    term.bold(`Encoding complete. Output path: ${encodedVideoFile}`)
+  }).catch(err => {
+    term.bold(`${err.stack || err}\n`)
     process.exit(1)
-    break
-}
-term.underline.red(`Outputting PSVR sideload video to ${outputFilePath}\n`)
-
-
-/* Analyze the video file to determine exact encoding targets
- * Then perform the transcode and output an interleaved MP4 */
-
-analyze(videoFile).then((videoData) => {
-  return encode(videoFile, videoData, outputFilePath, argv)
-}).then((encodedVideoFile) => {
-  term.bold(`Encoding complete. Output path: ${encodedVideoFile}`)
-}).catch(err => {
-  term.bold(`${err}\n`)
+  })
+} else {
+  term.bold(`Video degrees or cover not specified; see --help for usage information.\n`)
   process.exit(1)
-})
+}
